@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="说实话，每次都是憋不住了才写博客的，痛苦的旅程啊||_||  牢骚额，不愿意看我发牢骚的同学可以直接看下面干货了前阵子Kali 2.0发布 心血来潮，本来我的电脑是SP3 256G I7 ,Win10+Ubuntu 14.04 双系统。由Ubuntu安装时自带的grub 引导。当时我装双系统也是为了上操作系统课方便一些，没成想Surface真是有毒啊，上篇博客也提到了Ubuntu 14.04对SP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Win10+Kali linux 2.0 双系统 以及 grub 修复(上)">
+<meta property="og:url" content="http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/index.html">
+<meta property="og:site_name" content="DPC27149">
+<meta property="og:description" content="说实话，每次都是憋不住了才写博客的，痛苦的旅程啊||_||  牢骚额，不愿意看我发牢骚的同学可以直接看下面干货了前阵子Kali 2.0发布 心血来潮，本来我的电脑是SP3 256G I7 ,Win10+Ubuntu 14.04 双系统。由Ubuntu安装时自带的grub 引导。当时我装双系统也是为了上操作系统课方便一些，没成想Surface真是有毒啊，上篇博客也提到了Ubuntu 14.04对SP">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://media.techtarget.com/digitalguide/images/Misc/figuur1.gif">
+<meta property="og:image" content="http://img.blog.csdn.net/20140924091922709">
+<meta property="og:updated_time" content="2019-01-24T14:17:51.780Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Win10+Kali linux 2.0 双系统 以及 grub 修复(上)">
+<meta name="twitter:description" content="说实话，每次都是憋不住了才写博客的，痛苦的旅程啊||_||  牢骚额，不愿意看我发牢骚的同学可以直接看下面干货了前阵子Kali 2.0发布 心血来潮，本来我的电脑是SP3 256G I7 ,Win10+Ubuntu 14.04 双系统。由Ubuntu安装时自带的grub 引导。当时我装双系统也是为了上操作系统课方便一些，没成想Surface真是有毒啊，上篇博客也提到了Ubuntu 14.04对SP">
+<meta name="twitter:image" content="http://media.techtarget.com/digitalguide/images/Misc/figuur1.gif">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Win10+Kali linux 2.0 双系统 以及 grub 修复(上)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/index.html">About</a></li>
+         
+          <li><a href="/archives/">Writings</a></li>
+         
+          <li><a href="https://github.com/imudges00lipeiran">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/01/24/在surface-pro-3-上完美运行linux-你要做的还有很多。。。/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/01/22/writing in 2019/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&text=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&is_video=false&description=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)&body=Check out this article: http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&name=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#牢骚"><span class="toc-number">1.</span> <span class="toc-text">牢骚</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grub-2-引导详解"><span class="toc-number">2.</span> <span class="toc-text">grub 2 引导详解</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Win10+Kali linux 2.0 双系统 以及 grub 修复(上)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">DPC27149</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-01-24T14:17:51.779Z" itemprop="datePublished">2019-01-24</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>说实话，每次都是憋不住了才写博客的，痛苦的旅程啊||_||</p>
+<hr>
+<h2 id="牢骚"><a href="#牢骚" class="headerlink" title="牢骚"></a>牢骚</h2><p>额，不愿意看我发牢骚的同学可以直接看下面干货了<br>前阵子Kali 2.0发布 心血来潮，本来我的电脑是SP3 256G I7 ,Win10+Ubuntu 14.04 双系统。由Ubuntu安装时自带的grub 引导。当时我装双系统也是为了上操作系统课方便一些，没成想Surface真是有毒啊，上篇博客也提到了Ubuntu 14.04对SP3的硬件支持并不是很好，照着github上一个大神的项目重新编译了下内核才整好。而这次，无知且热爱作死的我 ，又一次作死了。</p>
+<p>##Win10 +Kali linux 2.0 双系统安装指南##<br>我用系统自带的“创建与格式化硬盘空间”将原硬盘分出了大约60G的空间用作第二系统Linux的空间。然后下载了[Ubuntu官方][7] 的 Ubuntu 14.04 的ISO镜像文件，制作USB系统盘的话，我推荐 [Win32DiskImager][8] ,使用它制作镜像盘的话要注意，如果你想清除镜像并重新使用这个U盘的话光格式化是不够的，还需要在命令提示符启动 DISKPART<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lis disk//列出当前设备可用的磁盘</span><br><span class="line">select disk (which you want) //选择你的USB磁盘编号</span><br><span class="line">clean //彻底清除磁盘</span><br><span class="line">create partition primary //创建主分区</span><br><span class="line">active//激活主分区</span><br><span class="line">exit</span><br></pre></td></tr></table></figure></p>
+<p>然后再格式化你的硬盘，你会发现他的空间又回来了。<br>那么我们使用这个工具将镜像烧录到U盘上，镜像盘就制作好了。<br>SP3的使用者要注意，surface系列使用的固件系统是EFI，与传统的BIOS是不同的，我们先要进入 设置-》更新和安全-》修复-》高级启动来进入UEFI固件系统，进入后我们需要修改固件的系统启动顺序为USB-&gt;SSD ，并且将Secure Boot 设置为 disable，这样我们才能用镜像盘引导启动。<br>安装Ubuntu的流程我就不说了，分区的时候提一下，我分区习惯很差，直接找8G空间（和内存大小差不多）作为Linux 的swap（交换空间），然后剩下的52G直接设置为ext4日志文件系统，挂载到root，也就是/根目录。然后分区就可以了，其实这样造成的问题会很多，大家可以按照自己的习惯科学分区，这里我就不赘述了。<br>安装完成后Ubuntu 会安装grub 引导 ，以后我们的电脑就以grub引导开机并选择要使用的系统，是不是很棒？</p>
+<hr>
+<p>##在原有双系统基础上覆盖第二系统安装kali linux##<br>接下来就是我写这篇博客的原因了<br>制作镜像盘的步骤基本与上一章一样,附镜像链接[kali linux 2.0][9] 安装Kali的步骤也基本一样，只要把原来Ubuntu的分区内容擦除，照着原来的设置挂载上去就好，kali linux 2.0自带grub2 引导 会自动安装并替换你原来的引导，注意 ：篓子就出在这里 是替换 而不是覆盖！<br>在我以为能尽情享受kali 带来的乐趣时 ，我手贱在终端输入了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure></p>
+<p>然后出去办事了，这条命令是linux通用更新grub的命令，我在回来以后忘记了这条命令依然在执行，关闭了系统。<br>于是，翌日，我的电脑开机变成了这个鸟样<br>这是grub shell<br><img src="http://media.techtarget.com/digitalguide/images/Misc/figuur1.gif" alt="这里写图片描述"><br>这个是正常的grub(不是我的)<br><img src="http://img.blog.csdn.net/20140924091922709" alt="这里写图片描述"></p>
+<p><strong>我靠劳资的系统呢？！</strong><br>不幸中的万幸  输入exit回车还是回到了我熟悉的windows，没想到这才是折腾的开始。<br>我以为只是grub2在安装时出了问题，和mbr冲突了，于是插上镜像盘又装了一遍。<br>grub2 在安装到一半是提示我：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">执行 grub-install dummy 失败</span><br></pre></td></tr></table></figure></p>
+<p>我靠，这就有点尴尬了。<br>这时，我开始逃避问题了，不愿意去一条命令一条命令检查错误，心里想着，grub 2不行的话我换回grub 1 吧 ，于是又拿Ubuntu的镜像盘装了一遍，不出所料，grub同样安装失败。</p>
+<h2 id="grub-2-引导详解"><a href="#grub-2-引导详解" class="headerlink" title="grub 2 引导详解"></a>grub 2 引导详解</h2><p>废话不多说，掏干货了。</p>
+<ul>
+<li><p><strong>grub2和grub有很多不同的地方</strong><br>a）图形接口<br>b）使用了模块机制，通过动态加载需要的模块来扩展功能<br>c）支持脚本语言，例如条件判断，循环、变量和函数<br>d）支持rescue模式，可用于系统无法引导的情况<br>e）国际化语言。包括支持非ASCII的字符集和类似gettext的消息分类，字体，图形控制台等等<br>f）有一个灵活的命令行接口。如果没有配置文件存在，GRUB会自动进入命令模式<br>g）针对文件系统、文件、设备、驱动、终端、命令、分区表、os loder的模块化、层次化、基于对象的框架<br>h）支持多种文件系统格式<br>i）可访问已经安装的设备上的数据<br>j）支持自动解压</p>
+</li>
+<li><p><strong>设备的命名</strong><br>grub2同样以fd表示软盘，hd表示硬盘（包含IDE和SCSI硬盘）。设备是从0开始编号，分区则是从1开始，主分区从1-4，逻辑分区从5开始。下面给出几个例子 ：<br>(fd0)：表示整个软盘<br>(hd0,1)：表示第一个硬盘的第1个分区<br>(hd0,5)/boot/vmlinuz：表示第一个硬盘的第一个逻辑分区下的boot目录下的vmlinuz文件</p>
+</li>
+<li><p><strong>grub2启动</strong></p>
+<p>grub2默认安装在第一硬盘（hd0）的mbr，其实就是把引导文件boot.img写入硬盘的mbr，当然，用户也可以选择不写入硬盘mbr而是写入linux分区的引导扇区。启动时根据mbr所提供信息找到启动分区后，加载分区内的grub核心文件core.img和配置文件grub.cfg，进入选择菜单画面。<br>可以用命令行启动系统，比如启动第二硬盘第一逻辑分区上的ubuntu系统：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grub&gt;set root=(hd1,5)</span><br><span class="line">grub&gt;linux /boot/vmlinuz-xxx-xxx root=/dev/sdb5</span><br><span class="line">grub&gt;initrd /boot/initrd.img-xxx-xxx</span><br><span class="line">grub&gt;boot</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中内核vmlinuz和initrd.img的版本号可按tab自动补全</p>
+<ul>
+<li><strong>grub.cfg详解</strong><br>博主的系统正是因为重复安装不同版本的grub且未将之前的grub版本清楚感觉而导致grub找不到grub.cfg，使系统开机显示grub shell界面，所以，千万不要手贱去动grub.cfg!<br>grub.cfg默认为只读，需要个性化配置文件的，建议不要直接修改grub.cfg，请参考链接的pdf文档和[google文档][10]。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">set default=0</span><br><span class="line">#默认为0</span><br><span class="line"> insmod jpeg</span><br><span class="line">#添加jpg支持，如要使用png或tga文件做背景，加上 insmod png或insmod tga</span><br><span class="line"> insmod ext2</span><br><span class="line">#除了用作启动的分区外，其他分区格式可在menu底下再添加</span><br><span class="line">set root=(hd0,7)</span><br><span class="line">#设定root分区</span><br><span class="line">search --no-floppy --fs-uuid --set f255285a-5ad4-4eb8-93f5-4f767190d3b3</span><br><span class="line">#设定uuid=****的分区为root，和上句重复，可删除</span><br><span class="line"># 以下为终端配置</span><br><span class="line">if loadfont /usr/share/grub/unicode.pf2 ; then</span><br><span class="line">#设置终端字体，unicode.pf2支持中文显示</span><br><span class="line">set gfxmode=640x480</span><br><span class="line">#设置分辨率，默认为 640x480，可用800x600，1024x768，建议跟你想设定的图片大小一致</span><br><span class="line">insmod gfxterm</span><br><span class="line">#插入模块 gfxterm，支持中文显 示，它还支持 24 位图像</span><br><span class="line">insmod vbe</span><br><span class="line">#插入 vbe 模块，GRUB 2 引入很多模块的东西，要使用它，需要在这里加入</span><br><span class="line">if terminal_output gfxterm ; then true ; else</span><br><span class="line"> # For backward compatibility with versions of terminal.mod that don&apos;t</span><br><span class="line"> # understand terminal_output</span><br><span class="line"> terminal gfxterm</span><br><span class="line">#设置 GRUB 2 终端为 gfxterm</span><br><span class="line"> fi</span><br><span class="line"> fi</span><br><span class="line"> set timeout=10</span><br><span class="line"></span><br><span class="line">#该延时比较关键，出现grub rescue时时间设置久点就可以进入系统，可能是匹配到UUID的原因</span><br><span class="line"> background_image (hd0,7)/boot/images/1.jpg</span><br><span class="line">#设置背景图片</span><br><span class="line">### END /etc/grub.d/00_header ###</span><br><span class="line"></span><br><span class="line"> ### BEGIN /etc/grub.d/05_debian_theme ###</span><br><span class="line"> set menu_color_normal=white/black</span><br><span class="line"> set menu_color_highlight=cyan/black</span><br><span class="line">#这两行为 Debian 下的菜单颜色设置，如果默认的话，你会发现背景完全被蓝色挡住了，你需要修改 blue 为 black，这样背景就会出现 </span><br><span class="line">### END /etc/grub.d/05_debian_theme ###</span><br><span class="line"></span><br><span class="line"># 10_linux 为自动添加的当前root分区linux引导项</span><br><span class="line">### BEGIN /etc/grub.d/10_linux ###</span><br><span class="line">#菜单项，要包括 menuentry 双引号&quot; &quot; 和大括号 &#123; &#125;才完整，否则不显示菜单</span><br><span class="line">menuentry &quot;Ubuntu, Linux 2.6.31-9-386&quot; &#123;</span><br><span class="line"> insmod ext2</span><br><span class="line"> set root=(hd0,7)</span><br><span class="line"> search --no-floppy --fs-uuid --set f255285a-5ad4-4eb8-93f5-4f767190d3b3</span><br><span class="line">#这句与set root=(hd0,7)重复，可删除</span><br><span class="line">linux /boot/vmlinuz-2.6.31-9-386 root=UUID=f255285a-5ad4-4eb8-93f5-4f767190d3b3 ro quite splash</span><br><span class="line">#不喜欢看到一长串的， roo=UUID=***可用root=/dev/sda7代替</span><br><span class="line">initrd /boot/initrd.img-2.6.31-9-386</span><br><span class="line"> &#125;</span><br><span class="line"> ### END /etc/grub.d/10_linux ###</span><br><span class="line"></span><br><span class="line"> ### BEGIN /etc/grub.d/20_memtest86+ ###</span><br><span class="line"> menuentry &quot;Memory test (memtest86+)&quot; &#123;</span><br><span class="line"> linux16 /boot/memtest86+.bin</span><br><span class="line"> &#125;</span><br><span class="line"> ### END /etc/grub.d/20_memtest86+ ###</span><br></pre></td></tr></table></figure>
+<p>##grub 2引导修复的几种方法（未完）##</p>
+<ul>
+<li><strong>重新安装，修复grub2</strong><br>attention,please! 当你的grub2 确实损坏了 开机启动的界面不是grub shell 而是 grub secure ，此法有效。<br>先使用ls命令，找到Ubuntu的安装在哪个分区：在 grub rescue&gt;下输入以下命令：ls。会罗列所有的磁盘分区信息，比方说：引用:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(hd0,1),(hd0,5),(hd0,3),(hd0,2)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>然后一次带哦用如下命令试探：X表示各个分区号码。如果/boot没有单独分区，用一下命令：代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls(hd0,X)/boot/grub</span><br></pre></td></tr></table></figure></p>
+<p>如果/boot单独分区，则用下列命令：代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls (hd0,x)/grub</span><br></pre></td></tr></table></figure></p>
+<p>正常情况下，会列出来几百个文件，很多文件的扩展名是.mod和.lst和.img，还有一个文件是grub.cfg。假设找到（hd0,5）时，显示了文件夹中的文件，则表示Linux安装在这个分区。</p>
+<p>如果找到了正确的grub目录，则设法临时性将grub的两部分关联起来，方法如下：<br>        以下是/boot没有单独分区的命令：引用:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grub rescue&gt;set root=(hd0,5)  </span><br><span class="line">grub rescue&gt;set prefix=(hd0,5)/boot/grub  </span><br><span class="line">grub rescue&gt;insmod /boot/grub/normal.mod</span><br></pre></td></tr></table></figure></p>
+<p>然后调用如下的命令，就可以显示出丢失的grub菜单了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grub rescue&gt;normal</span><br></pre></td></tr></table></figure></p>
+<hr>
+<hr>
+<p>参考原文:<br><a href="http://blog.csdn.net/zhandoushi1982/article/details/39404439" target="_blank" rel="noopener">http://blog.csdn.net/zhandoushi1982/article/details/39404439</a><br>参考原文:<br><a href="https://www.openfoundry.org/tw/foss-programs/9267-linux-grub2-fixing" target="_blank" rel="noopener">https://www.openfoundry.org/tw/foss-programs/9267-linux-grub2-fixing</a><br>[1]: <a href="http://math.stackexchange.com/" target="_blank" rel="noopener">http://math.stackexchange.com/</a><br>[2]: <a href="https://github.com/jmcmanus/pagedown-extra" target="_blank" rel="noopener">https://github.com/jmcmanus/pagedown-extra</a> “Pagedown Extra”<br>[3]: <a href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference" target="_blank" rel="noopener">http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference</a><br>[4]: <a href="http://bramp.github.io/js-sequence-diagrams/" target="_blank" rel="noopener">http://bramp.github.io/js-sequence-diagrams/</a><br>[5]: <a href="http://adrai.github.io/flowchart.js/" target="_blank" rel="noopener">http://adrai.github.io/flowchart.js/</a><br>[6]: <a href="https://github.com/benweet/stackedit" target="_blank" rel="noopener">https://github.com/benweet/stackedit</a><br>[7]: <a href="http://www.ubuntu.com/download/desktop" target="_blank" rel="noopener">http://www.ubuntu.com/download/desktop</a><br>[8]: <a href="https://sourceforge.net/projects/win32diskimager/" target="_blank" rel="noopener">https://sourceforge.net/projects/win32diskimager/</a><br>[9]: <a href="https://www.kali.org/downloads/" target="_blank" rel="noopener">https://www.kali.org/downloads/</a><br>[10]: <a href="https://www.gnu.org/software/grub/manual/grub.html" target="_blank" rel="noopener">https://www.gnu.org/software/grub/manual/grub.html</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/index.html">About</a></li>
+         
+          <li><a href="/archives/">Writings</a></li>
+         
+          <li><a href="https://github.com/imudges00lipeiran">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#牢骚"><span class="toc-number">1.</span> <span class="toc-text">牢骚</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grub-2-引导详解"><span class="toc-number">2.</span> <span class="toc-text">grub 2 引导详解</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&text=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&is_video=false&description=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)&body=Check out this article: http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&title=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/24/Win10-Kali-linux-2-0-双系统-以及-grub-修复-上/&name=Win10+Kali linux 2.0 双系统 以及 grub 修复(上)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 lipeiran
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/index.html">About</a></li>
+         
+          <li><a href="/archives/">Writings</a></li>
+         
+          <li><a href="https://github.com/imudges00lipeiran">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
